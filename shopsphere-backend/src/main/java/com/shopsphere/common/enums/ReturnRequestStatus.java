@@ -1,0 +1,14 @@
+package com.shopsphere.common.enums;
+
+public enum ReturnRequestStatus {
+	REQUESTED,
+	APPROVED,
+	PICKUP_SCHEDULED,
+	QUALITY_CHECK,
+	REFUND_PROCESSING,
+	REFUND_COMPLETED,
+	REPLACEMENT_APPROVED,
+	COMPLETED,
+	REJECTED,
+	CANCELLED
+}

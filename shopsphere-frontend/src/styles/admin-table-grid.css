@@ -1,0 +1,52 @@
+/* Consistent row and column rules across every existing admin data table. */
+.users-table,
+.sellers-table,
+.admin-orders-table,
+.seller-admin-table,
+.category-table {
+  border-collapse: collapse;
+}
+
+.users-table th,
+.users-table td,
+.sellers-table th,
+.sellers-table td,
+.admin-orders-table th,
+.admin-orders-table td,
+.seller-admin-table th,
+.seller-admin-table td,
+.category-table th,
+.category-table td {
+  border-right: 1px solid #e1e6f0;
+  border-bottom: 1px solid #e5e9f1;
+}
+
+.users-table th:last-child,
+.users-table td:last-child,
+.sellers-table th:last-child,
+.sellers-table td:last-child,
+.admin-orders-table th:last-child,
+.admin-orders-table td:last-child,
+.seller-admin-table th:last-child,
+.seller-admin-table td:last-child,
+.category-table th:last-child,
+.category-table td:last-child {
+  border-right: 0;
+}
+
+.users-table thead th,
+.sellers-table thead th,
+.admin-orders-table thead th,
+.seller-admin-table thead th,
+.category-table thead th {
+  border-bottom-color: #d8deeb;
+}
+
+.users-table tbody tr:last-child td,
+.sellers-table tbody tr:last-child td,
+.admin-orders-table tbody tr:last-child td,
+.seller-admin-table tbody tr:last-child td,
+.category-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+

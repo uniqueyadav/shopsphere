@@ -1,0 +1,22 @@
+CREATE TABLE IF NOT EXISTS payment_transactions (
+	id BIGINT NOT NULL AUTO_INCREMENT,
+	order_id BIGINT NOT NULL,
+	customer_id BIGINT NOT NULL,
+	idempotency_key VARCHAR(100) NOT NULL,
+	razorpay_order_id VARCHAR(100) NOT NULL,
+	razorpay_payment_id VARCHAR(100) NULL,
+	razorpay_key_id VARCHAR(100) NOT NULL,
+	amount DECIMAL(12,2) NOT NULL,
+	currency VARCHAR(3) NOT NULL,
+	status VARCHAR(20) NOT NULL,
+	failure_code VARCHAR(30) NULL,
+	created_at DATETIME(6) NOT NULL,
+	updated_at DATETIME(6) NOT NULL,
+	CONSTRAINT pk_payment_transactions PRIMARY KEY (id),
+	CONSTRAINT uk_payment_order_idempotency UNIQUE (order_id, idempotency_key),
+	CONSTRAINT uk_payment_razorpay_order UNIQUE (razorpay_order_id),
+	CONSTRAINT uk_payment_razorpay_payment UNIQUE (razorpay_payment_id),
+	CONSTRAINT fk_payment_order FOREIGN KEY (order_id) REFERENCES orders (id),
+	CONSTRAINT fk_payment_customer FOREIGN KEY (customer_id) REFERENCES shop_users (id),
+	INDEX idx_payment_customer_created (customer_id, created_at)
+) ENGINE=InnoDB;

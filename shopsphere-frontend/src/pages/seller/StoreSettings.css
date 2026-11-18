@@ -1,0 +1,265 @@
+.seller-settings-page {
+  min-height: 100vh;
+  color: #23332a;
+  background: #fbfcfa;
+}
+
+.seller-settings-container {
+  width: min(100% - 48px, 930px);
+  min-height: calc(100vh - 76px);
+  margin: 0 auto;
+  padding-bottom: 65px;
+}
+
+.seller-settings-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 23px 0;
+  color: #8a938b;
+  font-size: 10px;
+}
+
+.seller-settings-breadcrumb a {
+  color: #637268;
+  text-decoration: none;
+}
+
+.seller-settings-breadcrumb a:hover {
+  color: #2b674d;
+}
+
+.seller-settings-heading {
+  margin: 8px 0 23px;
+}
+
+.seller-settings-heading > span {
+  color: #718678;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.15px;
+}
+
+.seller-settings-heading h1 {
+  margin: 8px 0 6px;
+  color: #1d382b;
+  font-family: Manrope, sans-serif;
+  font-size: clamp(28px, 3.5vw, 36px);
+  font-weight: 600;
+  letter-spacing: -1.3px;
+}
+
+.seller-settings-heading p {
+  margin: 0;
+  color: #7c867d;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.seller-settings-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 15px;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #e7ece5;
+  border-radius: 9px;
+}
+
+.seller-settings-card-icon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  color: #4a7453;
+  background: #edf4ec;
+  border-radius: 50%;
+  font-family: Manrope, sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  place-items: center;
+}
+
+.seller-settings-copy h2 {
+  margin: 3px 0 6px;
+  color: #2b3d31;
+  font-family: Manrope, sans-serif;
+  font-size: 15px;
+}
+
+.seller-settings-copy p {
+  max-width: 550px;
+  margin: 0;
+  color: #7d887f;
+  font-size: 9px;
+  line-height: 1.7;
+}
+
+.seller-settings-field {
+  display: flex;
+  grid-column: 2;
+  flex-direction: column;
+  gap: 7px;
+  color: #485a4d;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.seller-settings-field > div {
+  display: flex;
+  width: min(100%, 300px);
+  height: 42px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  background: #fbfcfa;
+  border: 1px solid #dfe6dd;
+  border-radius: 5px;
+}
+
+.seller-settings-field > div:focus-within {
+  border-color: #91b099;
+  box-shadow: 0 0 0 3px rgba(73, 124, 87, .09);
+}
+
+.seller-settings-field > div > span {
+  color: #748578;
+  font-size: 11px;
+}
+
+.seller-settings-field input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  color: #2e4034;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: 11px;
+}
+
+.seller-settings-field small {
+  color: #89938a;
+  font-size: 8px;
+  font-weight: 500;
+}
+
+.seller-settings-message {
+  grid-column: 2;
+  margin: 0;
+  padding: 9px 10px;
+  border: 1px solid;
+  border-radius: 5px;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.seller-settings-message--error {
+  color: #8c3730;
+  background: #fff4f2;
+  border-color: #f1d8d5;
+}
+
+.seller-settings-message--success {
+  color: #356346;
+  background: #eff6ed;
+  border-color: #dcebd9;
+}
+
+.seller-settings-actions {
+  display: flex;
+  grid-column: 2;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 2px;
+  padding-top: 14px;
+  border-top: 1px solid #edf0ec;
+}
+
+.seller-settings-actions > a {
+  color: #627568;
+  font-size: 9px;
+  text-decoration: none;
+}
+
+.seller-settings-actions > a:hover {
+  color: #2b674d;
+}
+
+.seller-settings-actions > button,
+.seller-settings-error button {
+  min-height: 38px;
+  padding: 0 13px;
+  color: #fff;
+  background: #2b674d;
+  border: 1px solid #2b674d;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.seller-settings-actions > button:hover:not(:disabled),
+.seller-settings-error button:hover {
+  background: #1e503b;
+}
+
+.seller-settings-actions > button:disabled {
+  cursor: not-allowed;
+  opacity: .6;
+}
+
+.seller-settings-error {
+  display: block;
+}
+
+.seller-settings-error p {
+  margin: 0 0 13px;
+  color: #8c3730;
+  font-size: 10px;
+}
+
+.seller-settings-skeleton {
+  display: grid;
+  min-height: 160px;
+  gap: 12px;
+}
+
+.seller-settings-skeleton > span {
+  height: 18px;
+  background: #f0f3ef;
+  border-radius: 5px;
+}
+
+.seller-settings-skeleton > span:first-child {
+  width: 25%;
+  height: 30px;
+}
+
+.seller-settings-skeleton > span:last-child {
+  width: 40%;
+}
+
+@media (max-width: 600px) {
+  .seller-settings-container {
+    width: min(100% - 32px, 930px);
+  }
+
+  .seller-settings-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .seller-settings-field,
+  .seller-settings-message,
+  .seller-settings-actions {
+    grid-column: 1;
+  }
+
+  .seller-settings-actions {
+    align-items: flex-start;
+  }
+}

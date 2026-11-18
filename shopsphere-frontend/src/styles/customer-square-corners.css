@@ -1,0 +1,5 @@
+/* Customer account surfaces use a consistent 90-degree corner system. */
+:is(.customer-dashboard-page, .customer-cart-page, .checkout-page, .order-history-page),
+:is(.customer-dashboard-page, .customer-cart-page, .checkout-page, .order-history-page) * {
+  border-radius: 0 !important;
+}

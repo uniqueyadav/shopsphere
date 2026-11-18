@@ -1,0 +1,46 @@
+/* Sharp-corner popup surfaces keep the admin tools clean and modern. */
+.users-row-menu,
+.users-drawer,
+.users-edit-modal,
+.users-confirm-modal,
+.admin-profile-dropdown {
+  border-radius: 0 !important;
+  border-color: #d9dfec;
+  box-shadow: 0 18px 44px #101a3524;
+}
+
+.users-row-menu button,
+.admin-profile-dropdown button,
+.users-drawer .users-icon-button,
+.users-drawer .users-primary-button,
+.users-drawer .users-secondary-button,
+.users-edit-modal .users-icon-button,
+.users-edit-modal .users-primary-button,
+.users-edit-modal .users-secondary-button,
+.users-edit-modal input,
+.users-confirm-modal .users-secondary-button,
+.users-confirm-modal .users-danger-button {
+  border-radius: 0 !important;
+}
+
+.users-row-menu {
+  padding: 5px;
+}
+
+.users-row-menu button {
+  min-height: 39px;
+  border-bottom: 1px solid #edf0f5;
+}
+
+.users-row-menu button:last-of-type {
+  border-bottom: 0;
+}
+
+.users-edit-modal,
+.users-confirm-modal {
+  border-top: 3px solid #5148ed;
+}
+
+.users-drawer {
+  border-left: 1px solid #d9dfec;
+}

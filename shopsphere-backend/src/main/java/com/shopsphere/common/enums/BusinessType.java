@@ -1,0 +1,11 @@
+package com.shopsphere.common.enums;
+
+public enum BusinessType {
+	INDIVIDUAL,
+	SOLE_PROPRIETORSHIP,
+	PARTNERSHIP,
+	LIMITED_LIABILITY_PARTNERSHIP,
+	PRIVATE_LIMITED,
+	PUBLIC_LIMITED,
+	OTHER
+}

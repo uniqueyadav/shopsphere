@@ -1,0 +1,67 @@
+/* Stronger contrast and slightly larger type across the seller dashboard. */
+.seller-shell,
+.seller-dashboard-page {
+  color: #0b1738;
+}
+
+.seller-nav-link,
+.seller-logout-link {
+  font-size: 14px;
+}
+
+.seller-sidebar-label {
+  color: #e0ebff;
+  font-size: 11px;
+}
+
+.seller-growth-card strong { font-size: 14px; }
+.seller-growth-card > span { color: #e2edff; font-size: 12px; }
+.seller-growth-card a { font-size: 11px; }
+.seller-store-selector { color: #10244a; font-size: 13px; }
+.seller-global-search input { font-size: 14px; }
+.seller-global-search input::placeholder { color: #3f506e; }
+.seller-profile-copy strong { color: #0d1c3c; font-size: 13px; }
+.seller-profile-copy small { color: #344765; font-size: 11px; }
+.seller-profile-dropdown > strong { color: #1a2c4f; font-size: 12px; }
+.seller-profile-dropdown button { font-size: 13px; }
+
+.sd-welcome h1 { color: #091538; font-size: 29px; }
+.sd-welcome p,
+.sd-panel-heading p { color: #263a5e; font-size: 12px; }
+.sd-period { color: #15294c; font-size: 12px; }
+.sd-period > span { color: #3e4f6c; }
+.sd-period select,
+.sd-panel-heading select { color: #101d3d; font-size: 13px; }
+.sd-metric-copy small { color: #1e3155; font-size: 13px; }
+.sd-metric-copy strong { color: #091538; font-size: 23px; }
+.sd-metric-copy em,
+.sd-metric-copy em span { color: #344563; font-size: 11px; }
+.sd-panel-heading h2 { color: #091538; font-size: 18px; }
+.sd-panel-heading a { font-size: 13px; }
+.sd-chart-empty,
+.sd-panel-loading,
+.sd-empty { color: #273a5b; font-size: 13px; }
+.sd-axis-label { fill: #273a5b; font-size: 11px; }
+.sd-rank { font-size: 16px; font-weight: 800; }
+.sd-product-details > strong,
+.sd-product-sales { color: #102145; font-size: 13px; }
+.sd-product-row > small { color: #344563; font-size: 11px; }
+.sd-table-wrap th { color: #172a4c; font-size: 12px; }
+.sd-table-wrap td { color: #102145; font-size: 12px; }
+.sd-status { font-size: 10px; }
+.sd-quick-action strong,
+.sd-stock-alert { font-size: 12px; }
+
+@media (max-width: 680px) {
+  .sd-welcome h1 { font-size: 23px; }
+  .sd-welcome p { font-size: 12px; }
+  .sd-metric-copy small { font-size: 11px; }
+  .sd-metric-copy strong { font-size: 18px; }
+  .sd-metric-copy em { font-size: 10px; }
+  .sd-panel-heading h2 { font-size: 15px; }
+  .sd-panel-heading p { font-size: 11px; }
+  .sd-product-details > strong,
+  .sd-product-sales { font-size: 12px; }
+  .sd-table-wrap th,
+  .sd-table-wrap td { font-size: 11px; }
+}

@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: shopsphere-backend
+  profiles:
+    default: dev
+  datasource:
+    url: "${DB_URL:jdbc:mysql://localhost:3306/shopsphere?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}"
+    username: "${DB_USERNAME}"
+    password: "${DB_PASSWORD}"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: "${JPA_DDL_AUTO:update}"
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+server:
+  port: "${SERVER_PORT:8081}"
+
+app:
+  admin-bootstrap:
+    enabled: "${ADMIN_BOOTSTRAP_ENABLED:false}"
+    full-name: "${ADMIN_BOOTSTRAP_NAME:}"
+    email: "${ADMIN_BOOTSTRAP_EMAIL:}"
+    password: "${ADMIN_BOOTSTRAP_PASSWORD:}"
+  cors:
+    allowed-origins: "${CORS_ALLOWED_ORIGINS:http://localhost:5173,http://127.0.0.1:5173,http://localhost:4173,http://127.0.0.1:4173}"
+  jwt:
+    secret-base64: "${JWT_SECRET:}"
+    access-token-expiry-seconds: "${JWT_EXPIRY_SECONDS:86400}"
+    refresh-token-expiry-seconds: "${JWT_REFRESH_EXPIRY_SECONDS:2592000}"
+razorpay:
+  key-id: "${RAZORPAY_KEY_ID:}"
+  key-secret: "${RAZORPAY_KEY_SECRET:}"
+  webhook-secret: "${RAZORPAY_WEBHOOK_SECRET:}"
+shopsphere:
+  payout:
+    minimum-withdrawal: "${PAYOUT_MINIMUM_WITHDRAWAL:1000.00}"
+    cooldown-days: "${PAYOUT_COOLDOWN_DAYS:7}"

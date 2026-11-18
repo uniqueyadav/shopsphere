@@ -1,0 +1,10 @@
+import { Link } from 'react-router-dom'
+
+const statusClass = (status='') => `status-${status.toLowerCase().replaceAll('_','-')}`
+
+export default function DataTable({ orders = [], loading, error }) {
+  return <section className="admin-panel admin-orders-panel">
+    <div className="admin-panel-heading"><div><span className="admin-heading-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h2l2.4 12.4a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg></span><h2>Recent Orders</h2></div><Link className="admin-view-all" to="/admin/orders">View All <span aria-hidden="true">→</span></Link></div>
+    {loading ? <div className="admin-table-skeleton" role="status" aria-label="Loading recent orders">{[0,1,2,3].map((item)=><div key={item}><i/><i/><i/><i/></div>)}</div> : error ? <div className="admin-inline-empty">Recent orders could not be loaded.</div> : orders.length ? <div className="admin-table-wrap"><table className="admin-orders-table"><thead><tr><th>Order ID</th><th>Customer</th><th>Date</th><th>Amount</th><th>Status</th></tr></thead><tbody>{orders.map((order)=><tr key={order.id}><td className="admin-order-id">#{order.orderNumber || order.id}</td><td><div className="admin-customer"><span>{(order.customerName||'U').trim().split(/\s+/).map((part)=>part[0]).join('').slice(0,2).toUpperCase()}</span>{order.customerName || 'Customer'}</div></td><td>{order.createdAt ? new Date(order.createdAt).toLocaleString(undefined,{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '—'}</td><td className="admin-order-amount">{order.amount != null ? new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0}).format(order.amount) : '—'}</td><td><span className={`admin-status ${statusClass(order.status)}`}>{(order.status||'Unavailable').replaceAll('_',' ')}</span></td></tr>)}</tbody></table></div> : <div className="admin-inline-empty">No orders found for this period.</div>}
+  </section>
+}
