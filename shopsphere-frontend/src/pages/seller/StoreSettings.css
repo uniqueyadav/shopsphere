@@ -263,3 +263,4 @@
     align-items: flex-start;
   }
 }
+.seller-settings-location-button{justify-self:start;border:1px solid #d8daf0;border-radius:8px;padding:10px 14px;background:#f5f5ff;color:#4038c9;font-weight:700;cursor:pointer}.seller-settings-location-button:hover{background:#ebeaff}.seller-settings-field>small{color:#596781}

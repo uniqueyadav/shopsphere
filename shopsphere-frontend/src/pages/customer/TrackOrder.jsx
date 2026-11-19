@@ -110,7 +110,9 @@ export default function TrackOrder() {
                                   <time dateTime={event.changedAt}>
                                     {new Date(event.changedAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' })}
                                   </time>
-                                  {event.note && <p>{event.note}</p>}
+                                  {event.latitude != null && event.longitude != null
+                                    ? <p>Location: <a href={`https://www.google.com/maps?q=${event.latitude},${event.longitude}`} rel="noreferrer" target="_blank">{Number(event.latitude).toFixed(5)}, {Number(event.longitude).toFixed(5)}</a></p>
+                                    : <p>Location not shared for this update.</p>}
                                 </div>
                               </li>
                             )

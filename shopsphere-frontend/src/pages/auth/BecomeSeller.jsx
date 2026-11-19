@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import MainNavbar from '../../components/navbar/MainNavbar'
 import { register } from '../../features/auth/authSlice'
 import { getRequestError } from '../../services/authService'
 import { applyForSeller } from '../../services/sellerService'
@@ -154,6 +153,12 @@ export default function BecomeSeller() {
     const allErrors = { ...stepErrors, ...documentErrors }
     setErrors(allErrors)
     if (Object.keys(allErrors).length) { setStep(Object.keys(stepErrors).length ? 1 : 2); return }
+    const missingDocuments = DOCUMENTS.filter(([key]) => !documents[key])
+    if (missingDocuments.length) {
+      setDocumentError(`Please upload: ${missingDocuments.map(([, title]) => title).join(', ')}.`)
+      setStep(2)
+      return
+    }
 
     setBusy(true)
     setRequestError('')
@@ -162,11 +167,15 @@ export default function BecomeSeller() {
         await dispatch(register({ fullName: values.fullName.trim(), email: values.email.trim(), phone: values.phone.trim(), password: values.password })).unwrap()
         setAccountCreated(true)
       }
-      const result = await applyForSeller({
+      const application = {
         sellerFullName: values.fullName.trim(), email: values.email.trim(), phone: values.phone.trim(),
         businessName: values.businessName.trim(), businessType: values.businessType,
         businessAddress: values.businessAddress.trim(), businessDescription: values.businessDescription.trim(), gstNumber: values.gstNumber.trim().toUpperCase(),
-      })
+      }
+      const formData = new FormData()
+      formData.append('application', new Blob([JSON.stringify(application)], { type: 'application/json' }))
+      DOCUMENTS.forEach(([key]) => formData.append(key, documents[key]))
+      const result = await applyForSeller(formData)
       setApplication(result)
     } catch (error) {
       setRequestError(typeof error === 'string' ? error : getRequestError(error, error?.message || 'We could not submit your application. Please try again.'))
@@ -174,7 +183,6 @@ export default function BecomeSeller() {
   }
 
   return <>
-    <MainNavbar showSellerCta={false}/>
     <main className="seller-page">
     <BenefitsPanel step={step}/>
     <section className="seller-form-panel">
@@ -220,9 +228,9 @@ export default function BecomeSeller() {
               ))}
             </div>
             {documentError && <p className="seller-field-error" role="alert">{documentError}</p>}
-            <div className="seller-info-note"><Icon name="shield" size={17}/> Files are selected in this browser. The current seller API does not yet store document uploads.</div>
+            <div className="seller-info-note"><Icon name="shield" size={17}/> All required documents are uploaded securely with your application.</div>
           </section>}
-          {step === 3 && <section className="seller-step-content"><div className="seller-section-title"><span><Icon name="file"/></span><div><h3>Review & Submit</h3><small>Check your information before submitting your seller application.</small></div></div><div className="seller-review-grid"><div className="seller-review-card"><header><strong>Account Details</strong><button onClick={() => setStep(0)} type="button">Edit</button></header><dl><div><dt>Full name</dt><dd>{values.fullName}</dd></div><div><dt>Email address</dt><dd>{values.email}</dd></div><div><dt>Mobile number</dt><dd>{values.phone}</dd></div><div><dt>Password</dt><dd>{signedIn ? 'Existing account' : 'Password set'}</dd></div></dl></div><div className="seller-review-card"><header><strong>Business Details</strong><button onClick={() => setStep(1)} type="button">Edit</button></header><dl><div><dt>Business name</dt><dd>{values.businessName}</dd></div><div><dt>Business type</dt><dd>{BUSINESS_TYPES.find(([type]) => type === values.businessType)?.[1]}</dd></div><div><dt>GST number</dt><dd>{values.gstNumber || 'Not provided'}</dd></div><div><dt>Business address</dt><dd>{values.businessAddress}</dd></div></dl></div><div className="seller-review-card"><header><strong>Selected Documents</strong><button onClick={() => setStep(2)} type="button">Edit</button></header><ul className="seller-selected-documents">{DOCUMENTS.map(([key, title]) => <li key={key}><span>{title}</span><strong className={documents[key] ? 'selected' : ''}>{documents[key] ? 'Selected' : 'Not selected'}</strong></li>)}</ul></div></div><p className="seller-review-note"><Icon name="shield" size={17}/> By submitting, you confirm the information is accurate. Document files remain selected locally and are not included in the current application API.</p></section>}
+          {step === 3 && <section className="seller-step-content"><div className="seller-section-title"><span><Icon name="file"/></span><div><h3>Review & Submit</h3><small>Check your information before submitting your seller application.</small></div></div><div className="seller-review-grid"><div className="seller-review-card"><header><strong>Account Details</strong><button onClick={() => setStep(0)} type="button">Edit</button></header><dl><div><dt>Full name</dt><dd>{values.fullName}</dd></div><div><dt>Email address</dt><dd>{values.email}</dd></div><div><dt>Mobile number</dt><dd>{values.phone}</dd></div><div><dt>Password</dt><dd>{signedIn ? 'Existing account' : 'Password set'}</dd></div></dl></div><div className="seller-review-card"><header><strong>Business Details</strong><button onClick={() => setStep(1)} type="button">Edit</button></header><dl><div><dt>Business name</dt><dd>{values.businessName}</dd></div><div><dt>Business type</dt><dd>{BUSINESS_TYPES.find(([type]) => type === values.businessType)?.[1]}</dd></div><div><dt>GST number</dt><dd>{values.gstNumber || 'Not provided'}</dd></div><div><dt>Business address</dt><dd>{values.businessAddress}</dd></div></dl></div><div className="seller-review-card"><header><strong>Selected Documents</strong><button onClick={() => setStep(2)} type="button">Edit</button></header><ul className="seller-selected-documents">{DOCUMENTS.map(([key, title]) => <li key={key}><span>{title}</span><strong className={documents[key] ? 'selected' : ''}>{documents[key] ? 'Selected' : 'Not selected'}</strong></li>)}</ul></div></div><p className="seller-review-note"><Icon name="shield" size={17}/> By submitting, you confirm the information and uploaded documents are accurate.</p></section>}
           <footer className="seller-form-actions">{step > 0 ? <button className="seller-secondary-button" onClick={() => { setStep((current) => current - 1); setErrors({}) }} type="button">Back</button> : <Link className="seller-secondary-button" to="/shop">Cancel</Link>}<button className="seller-primary-button" disabled={busy} type="submit">{busy ? 'Submitting…' : step === STEPS.length - 1 ? 'Submit Application' : 'Next Step'}<Icon name="arrow"/></button></footer>
         </form>
       </>}

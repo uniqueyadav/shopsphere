@@ -22,12 +22,20 @@ public record AddressRequest(
 		boolean defaultAddress,
 		@Size(max = 500) String deliveryInstructions,
 		boolean leavePackageAtDoor,
-		boolean callBeforeDelivery) {
+		boolean callBeforeDelivery,
+		@jakarta.validation.constraints.DecimalMin("-90.0") @jakarta.validation.constraints.DecimalMax("90.0") Double latitude,
+		@jakarta.validation.constraints.DecimalMin("-180.0") @jakarta.validation.constraints.DecimalMax("180.0") Double longitude) {
 
 	public AddressRequest(
 			String fullName, String mobileNumber, String houseFlatNumber, String streetArea, String landmark,
 			String city, String state, String pinCode, AddressType addressType, boolean defaultAddress) {
 		this(fullName, mobileNumber, houseFlatNumber, streetArea, landmark, city, state, pinCode,
-				addressType, defaultAddress, null, false, false);
+				addressType, defaultAddress, null, false, false, null, null);
+	}
+	public AddressRequest(String fullName, String mobileNumber, String houseFlatNumber, String streetArea, String landmark,
+			String city, String state, String pinCode, AddressType addressType, boolean defaultAddress,
+			String deliveryInstructions, boolean leavePackageAtDoor, boolean callBeforeDelivery) {
+		this(fullName, mobileNumber, houseFlatNumber, streetArea, landmark, city, state, pinCode, addressType,
+				defaultAddress, deliveryInstructions, leavePackageAtDoor, callBeforeDelivery, null, null);
 	}
 }

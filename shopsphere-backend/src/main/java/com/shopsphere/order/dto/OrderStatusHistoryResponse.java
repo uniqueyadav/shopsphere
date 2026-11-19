@@ -8,5 +8,7 @@ public record OrderStatusHistoryResponse(
 		OrderStatus status,
 		Instant changedAt,
 		String changedBy,
-		String note) {
+		String note,
+		Double latitude,
+		Double longitude) {
 }

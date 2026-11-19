@@ -71,6 +71,11 @@ public class Order extends BaseEntity {
 
 	@Column(name = "shipping_pin_code", nullable = false, length = 20)
 	private String shippingPinCode;
+	@Column(name = "shipping_latitude") private Double shippingLatitude;
+	@Column(name = "shipping_longitude") private Double shippingLongitude;
+	@Column(name = "shipping_delivery_instructions", length = 500) private String shippingDeliveryInstructions;
+	@Column(name = "shipping_leave_at_door", nullable = false) private boolean shippingLeaveAtDoor;
+	@Column(name = "shipping_call_before_delivery", nullable = false) private boolean shippingCallBeforeDelivery;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "shipping_address_type", nullable = false, length = 10)
@@ -132,6 +137,11 @@ public class Order extends BaseEntity {
 		this.shippingCity = address.getCity();
 		this.shippingState = address.getState();
 		this.shippingPinCode = address.getPinCode();
+		this.shippingLatitude = address.getLatitude();
+		this.shippingLongitude = address.getLongitude();
+		this.shippingDeliveryInstructions = address.getDeliveryInstructions();
+		this.shippingLeaveAtDoor = address.isLeavePackageAtDoor();
+		this.shippingCallBeforeDelivery = address.isCallBeforeDelivery();
 		this.shippingAddressType = address.getAddressType();
 		this.paymentMethod = paymentMethod;
 		this.paymentStatus = PaymentStatus.PENDING;
@@ -187,6 +197,11 @@ public class Order extends BaseEntity {
 	public String getShippingPinCode() {
 		return shippingPinCode;
 	}
+	public Double getShippingLatitude() { return shippingLatitude; }
+	public Double getShippingLongitude() { return shippingLongitude; }
+	public String getShippingDeliveryInstructions() { return shippingDeliveryInstructions; }
+	public boolean isShippingLeaveAtDoor() { return shippingLeaveAtDoor; }
+	public boolean isShippingCallBeforeDelivery() { return shippingCallBeforeDelivery; }
 
 	public AddressType getShippingAddressType() {
 		return shippingAddressType;

@@ -16,5 +16,7 @@ public record AddressResponse(
 		boolean defaultAddress,
 		String deliveryInstructions,
 		boolean leavePackageAtDoor,
-		boolean callBeforeDelivery) {
+		boolean callBeforeDelivery,
+		Double latitude,
+		Double longitude) {
 }

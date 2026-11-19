@@ -1,7 +1,13 @@
 import { authApi } from './authService'
 
 export async function applyForSeller(application) {
-  const response = await authApi.post('/seller/applications', application)
+  const response = await authApi.post(
+    '/seller/applications',
+    application instanceof FormData ? application : application,
+    application instanceof FormData
+      ? { headers: { 'Content-Type': 'multipart/form-data' } }
+      : undefined,
+  )
   return response.data.data
 }
 
@@ -10,8 +16,8 @@ export async function getSellerDeliveryFee() {
   return response.data.data
 }
 
-export async function updateSellerDeliveryFee(deliveryFee) {
-  const response = await authApi.put('/seller/me/delivery-fee', { deliveryFee })
+export async function updateSellerDeliveryFee(deliveryFee, pickupLatitude = null, pickupLongitude = null) {
+  const response = await authApi.put('/seller/me/delivery-fee', { deliveryFee, pickupLatitude, pickupLongitude })
   return response.data.data
 }
 

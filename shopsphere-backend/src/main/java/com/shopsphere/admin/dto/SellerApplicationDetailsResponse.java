@@ -1,11 +1,13 @@
 package com.shopsphere.admin.dto;
 
 import java.time.Instant;
+import java.util.List;
 
 import com.shopsphere.common.enums.BusinessType;
 import com.shopsphere.common.enums.SellerStatus;
 import com.shopsphere.common.enums.AccountStatus;
 import com.shopsphere.seller.entity.Seller;
+import com.shopsphere.seller.entity.SellerDocument;
 import com.shopsphere.user.entity.User;
 
 public record SellerApplicationDetailsResponse(
@@ -26,7 +28,8 @@ public record SellerApplicationDetailsResponse(
 		AccountStatus accountStatus,
 		String suspensionReason,
 		long totalProducts,
-		long totalOrders) {
+		long totalOrders,
+		List<SubmittedDocument> documents) {
 
 	public static SellerApplicationDetailsResponse from(Seller seller, long totalProducts, long totalOrders) {
 		User user = seller.getUser();
@@ -49,9 +52,21 @@ public record SellerApplicationDetailsResponse(
 				user.getAccountStatus(),
 				seller.getSuspensionReason(),
 				totalProducts,
-				totalOrders);
+				totalOrders,
+				seller.getDocuments().stream()
+						.map(SubmittedDocument::from)
+						.toList());
 	}
 
 	public record Reviewer(Long id, String fullName) {
+	}
+
+	public record SubmittedDocument(String type, String fileName, String fileUrl) {
+		public static SubmittedDocument from(SellerDocument document) {
+			return new SubmittedDocument(
+					document.getDocumentType(),
+					document.getOriginalFileName(),
+					document.getFileUrl());
+		}
 	}
 }

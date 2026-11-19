@@ -83,7 +83,7 @@ public class SellerOrder extends BaseEntity {
 		this.totalAmount = totalAmount;
 		recordStatusChange("SYSTEM", orderStatus == OrderStatus.PAYMENT_PENDING
 				? "Awaiting payment."
-				: "Order placed.");
+				: "Order placed.", null, null);
 	}
 
 	public Order getOrder() {
@@ -129,6 +129,10 @@ public class SellerOrder extends BaseEntity {
 	}
 
 	public boolean transitionTo(OrderStatus nextStatus, String changedBy, String note) {
+		return transitionTo(nextStatus, changedBy, note, null, null);
+	}
+
+	public boolean transitionTo(OrderStatus nextStatus, String changedBy, String note, Double latitude, Double longitude) {
 		if (nextStatus == orderStatus) {
 			return false;
 		}
@@ -136,7 +140,7 @@ public class SellerOrder extends BaseEntity {
 			throw new IllegalStateException("Order status transition is not allowed.");
 		}
 		orderStatus = nextStatus;
-		recordStatusChange(changedBy, note);
+		recordStatusChange(changedBy, note, latitude, longitude);
 		return true;
 	}
 
@@ -156,7 +160,7 @@ public class SellerOrder extends BaseEntity {
 		};
 	}
 
-	private void recordStatusChange(String changedBy, String note) {
-		statusHistory.add(new OrderStatusHistory(this, orderStatus, changedBy, note));
+	private void recordStatusChange(String changedBy, String note, Double latitude, Double longitude) {
+		statusHistory.add(new OrderStatusHistory(this, orderStatus, changedBy, note, latitude, longitude));
 	}
 }

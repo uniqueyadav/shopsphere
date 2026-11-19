@@ -50,6 +50,8 @@ const Returns = lazy(() => import("./pages/customer/Returns"));
 const StoreSettings = lazy(() => import("./pages/seller/StoreSettings"));
 const SellerDashboard = lazy(() => import("./pages/seller/Dashboard"));
 const ProductSubmissionSuccess = lazy(() => import("./pages/seller/ProductSubmissionSuccess"));
+const DeliveryDashboard = lazy(() => import("./pages/delivery/Dashboard"));
+const DeliveryOrderDetails = lazy(() => import("./pages/delivery/OrderDetails"));
 
 function PublicPageFallback() {
   return (
@@ -66,6 +68,8 @@ function AccountPage() {
     ? "/admin"
     : userRole === "SELLER"
       ? "/seller/dashboard"
+      : userRole === "DELIVERY_PARTNER"
+        ? "/delivery/dashboard"
       : "/orders";
 
   return <Navigate to={destination} replace />;
@@ -367,6 +371,12 @@ function App() {
             </Suspense>
           }
         />
+      </Route>
+
+      <Route element={<ProtectedRoute allowedRoles={["DELIVERY_PARTNER"]} />}>
+        <Route path="/delivery" element={<Navigate to="/delivery/dashboard" replace />} />
+        <Route path="/delivery/dashboard" element={<DeliveryDashboard />} />
+        <Route path="/delivery/orders/:assignmentId" element={<DeliveryOrderDetails />} />
       </Route>
 
       <Route path="/" element={<Navigate to="/shop" replace />} />

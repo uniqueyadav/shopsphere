@@ -179,6 +179,14 @@ export default function Register() {
         </button>
       </form>
 
+      <div className="seller-register-option">
+        <div>
+          <strong>Want to sell on ShopSphere?</strong>
+          <span>Apply for a seller account and set up your store.</span>
+        </div>
+        <Link to="/become-seller">Register as a seller <span aria-hidden="true">→</span></Link>
+      </div>
+
       <p className="form-terms">
         By continuing, you agree to our <a href="#terms">Terms of Service</a> and <a href="#privacy">Privacy Policy</a>.
       </p>

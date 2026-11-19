@@ -17,10 +17,14 @@ import jakarta.persistence.ForeignKey;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.CascadeType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "sellers")
@@ -63,6 +67,8 @@ public class Seller extends BaseEntity {
 
 	@Column(name = "delivery_fee", nullable = false, precision = 12, scale = 2)
 	private BigDecimal deliveryFee = BigDecimal.ZERO;
+	@Column(name = "pickup_latitude") private Double pickupLatitude;
+	@Column(name = "pickup_longitude") private Double pickupLongitude;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -82,6 +88,9 @@ public class Seller extends BaseEntity {
 
 	@Column(name = "suspension_reason", length = 1000)
 	private String suspensionReason;
+
+	@OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<SellerDocument> documents = new ArrayList<>();
 
 	protected Seller() {
 	}
@@ -150,6 +159,9 @@ public class Seller extends BaseEntity {
 	public BigDecimal getDeliveryFee() {
 		return deliveryFee;
 	}
+	public Double getPickupLatitude() { return pickupLatitude; }
+	public Double getPickupLongitude() { return pickupLongitude; }
+	public void updatePickupLocation(Double latitude, Double longitude) { this.pickupLatitude = latitude; this.pickupLongitude = longitude; }
 
 	public void updateDeliveryFee(BigDecimal deliveryFee) {
 		this.deliveryFee = deliveryFee;
@@ -177,6 +189,15 @@ public class Seller extends BaseEntity {
 
 	public String getSuspensionReason() {
 		return suspensionReason;
+	}
+
+	public List<SellerDocument> getDocuments() {
+		return documents;
+	}
+
+	public void addDocument(SellerDocument document) {
+		documents.add(document);
+		document.setSeller(this);
 	}
 
 	public void updateProfile(

@@ -91,25 +91,28 @@ export default function Checkout() {
   }, [location.state?.couponCode])
 
   const cartItems = cart?.items || []
+  const defaultAddress = addresses.find((address) => address.defaultAddress)
+  const selectedAddress = addresses.find((address) => String(address.id) === String(selectedAddressId)) || defaultAddress
+  const activeAddressId = selectedAddress ? String(selectedAddress.id) : ''
   const sellerFees = new Map()
   cartItems.forEach((item) => {
-    if (!sellerFees.has(item.sellerId)) {
-      sellerFees.set(item.sellerId, {
-        name: item.sellerName,
-        fee: Number(item.sellerDeliveryFee || 0),
-      })
+    if (sellerFees.has(item.sellerId)) return
+    const hasCoordinates = item.sellerPickupLatitude != null && item.sellerPickupLongitude != null && selectedAddress?.latitude != null && selectedAddress?.longitude != null
+    let fee = Number(item.sellerDeliveryFee || 0)
+    if (hasCoordinates) {
+      const radians = value => value * Math.PI / 180
+      const dLat = radians(Number(selectedAddress.latitude) - Number(item.sellerPickupLatitude))
+      const dLon = radians(Number(selectedAddress.longitude) - Number(item.sellerPickupLongitude))
+      const lat1 = radians(Number(item.sellerPickupLatitude)), lat2 = radians(Number(selectedAddress.latitude))
+      const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2
+      const distanceKm = 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+      fee = 20 + Math.ceil(distanceKm) * 5
     }
+    sellerFees.set(item.sellerId, { name: item.sellerName, fee })
   })
   const deliveryCharges = Array.from(sellerFees.values()).reduce((sum, seller) => sum + seller.fee, 0)
   const subtotal = Number(cart?.subtotal || 0)
   const total = Math.max(0, subtotal + deliveryCharges - couponDiscount)
-  const defaultAddress = addresses.find((address) => address.defaultAddress)
-  const selectedAddress = addresses.find((address) => String(address.id) === String(selectedAddressId))
-  const activeAddressId = selectedAddress
-    ? String(selectedAddress.id)
-    : defaultAddress
-      ? String(defaultAddress.id)
-      : ''
   const checkoutLoading = cartStatus === 'loading' || addressStatus === 'loading'
   const canSubmit = cartItems.length > 0
     && cartItems.every((item) => item.available)
@@ -347,6 +350,7 @@ export default function Checkout() {
                     <div><span>Subtotal ({cart.totalQuantity} {cart.totalQuantity === 1 ? 'Item' : 'Items'})</span><strong>{formatProductPrice(subtotal)}</strong></div>
                     {couponDiscount > 0 && <div><span>Discount {couponCode && `(${couponCode})`}</span><strong className="checkout-discount-amount">- {formatProductPrice(couponDiscount)}</strong></div>}
                     <div><span>Shipping Charges</span><strong>{deliveryCharges ? formatProductPrice(deliveryCharges) : 'Free'}</strong></div>
+                    <small className="checkout-distance-note">Delivery: ₹20 base + ₹5/km, rounded up, per seller shipment. Save the store pickup and delivery location pins to use distance pricing; otherwise the seller’s flat fee applies.</small>
                     <div className="checkout-summary-coupon"><label htmlFor="checkout-coupon">Coupon code</label><div><input id="checkout-coupon" autoCapitalize="characters" autoComplete="off" maxLength="40" onChange={(event) => changeCouponCode(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') { event.preventDefault(); applyCoupon() } }} placeholder="Enter coupon code" value={couponCode}/><button type="button" onClick={applyCoupon} disabled={couponBusy}>{couponBusy ? '...' : 'Apply'}</button></div>{couponMessage && <small className={couponDiscount > 0 ? 'is-success' : 'is-error'} role="status">{couponMessage}</small>}</div>
                   </div>
                   <div className="checkout-summary-total">

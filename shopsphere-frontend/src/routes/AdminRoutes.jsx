@@ -12,6 +12,7 @@ const Refunds = lazy(() => import('../pages/admin/Refunds'))
 const Coupons = lazy(() => import('../pages/admin/Coupons'))
 const Reviews = lazy(() => import('../pages/admin/Reviews'))
 const DeliveryPartners = lazy(() => import('../pages/admin/DeliveryPartners'))
+const CourierDashboard = lazy(() => import('../pages/admin/CourierDashboard'))
 const CommissionSettings = lazy(() => import('../pages/admin/CommissionSettings'))
 const RevenueReports = lazy(() => import('../pages/admin/RevenueReports'))
 const Notifications = lazy(() => import('../pages/admin/Notifications'))
@@ -35,6 +36,7 @@ export default function AdminRoutes() {
     <Route path="coupons" element={<Suspense fallback={<AdminPageFallback/>}><Coupons/></Suspense>}/>
     <Route path="reviews" element={<Suspense fallback={<AdminPageFallback/>}><Reviews/></Suspense>}/>
     <Route path="delivery-partners" element={<Suspense fallback={<AdminPageFallback/>}><DeliveryPartners/></Suspense>}/>
+    <Route path="courier-dashboard" element={<Suspense fallback={<AdminPageFallback/>}><CourierDashboard/></Suspense>}/>
     <Route path="commission-settings" element={<Suspense fallback={<AdminPageFallback/>}><CommissionSettings/></Suspense>}/>
     <Route path="revenue-reports" element={<Suspense fallback={<AdminPageFallback/>}><RevenueReports/></Suspense>}/>
     <Route path="notifications" element={<Suspense fallback={<AdminPageFallback/>}><Notifications/></Suspense>}/>

@@ -23,10 +23,10 @@ public interface SellerOrderRepository extends JpaRepository<SellerOrder, Long>,
 
 	Optional<SellerOrder> findByIdAndSeller_User_Id(Long sellerOrderId, Long sellerUserId);
 
-	@EntityGraph(attributePaths = {"seller", "order", "order.customer", "items", "items.product", "statusHistory"})
+	@EntityGraph(attributePaths = {"seller", "order", "order.customer", "items", "items.product"})
 	Optional<SellerOrder> findWithDetailsByIdAndSeller_User_Id(Long sellerOrderId, Long sellerUserId);
 
 	@Override
-	@EntityGraph(attributePaths = {"seller", "order", "order.customer", "items", "items.product", "statusHistory"})
+	@EntityGraph(attributePaths = {"seller", "order", "order.customer", "items", "items.product"})
 	Page<SellerOrder> findAll(Specification<SellerOrder> specification, Pageable pageable);
 }

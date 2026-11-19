@@ -20,6 +20,8 @@ export function normalizeAddressPayload(values) {
     deliveryInstructions: String(values.deliveryInstructions ?? '').trim() || null,
     leavePackageAtDoor: Boolean(values.leavePackageAtDoor),
     callBeforeDelivery: Boolean(values.callBeforeDelivery),
+    latitude: values.latitude === '' || values.latitude == null ? null : Number(values.latitude),
+    longitude: values.longitude === '' || values.longitude == null ? null : Number(values.longitude),
   }
 
   return cleaned

@@ -60,6 +60,9 @@ public class Address extends BaseEntity {
 	@Column(name = "leave_package_at_door", nullable = false)
 	private boolean leavePackageAtDoor;
 
+	@Column(name = "latitude") private Double latitude;
+	@Column(name = "longitude") private Double longitude;
+
 	@Column(name = "call_before_delivery", nullable = false)
 	private boolean callBeforeDelivery;
 
@@ -150,6 +153,8 @@ public class Address extends BaseEntity {
 	public String getDeliveryInstructions() { return deliveryInstructions; }
 	public boolean isLeavePackageAtDoor() { return leavePackageAtDoor; }
 	public boolean isCallBeforeDelivery() { return callBeforeDelivery; }
+	public Double getLatitude() { return latitude; }
+	public Double getLongitude() { return longitude; }
 
 	public void update(
 			String fullName,
@@ -178,6 +183,13 @@ public class Address extends BaseEntity {
 			String deliveryInstructions,
 			boolean leavePackageAtDoor,
 			boolean callBeforeDelivery) {
+		update(fullName, mobileNumber, houseFlatNumber, streetArea, landmark, city, state, pinCode, addressType,
+				deliveryInstructions, leavePackageAtDoor, callBeforeDelivery, latitude, longitude);
+	}
+
+	public void update(String fullName, String mobileNumber, String houseFlatNumber, String streetArea, String landmark,
+			String city, String state, String pinCode, AddressType addressType, String deliveryInstructions,
+			boolean leavePackageAtDoor, boolean callBeforeDelivery, Double latitude, Double longitude) {
 		this.fullName = fullName;
 		this.mobileNumber = mobileNumber;
 		this.houseFlatNumber = houseFlatNumber;
@@ -190,6 +202,8 @@ public class Address extends BaseEntity {
 		this.deliveryInstructions = deliveryInstructions;
 		this.leavePackageAtDoor = leavePackageAtDoor;
 		this.callBeforeDelivery = callBeforeDelivery;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public void setDefaultAddress(boolean defaultAddress) {

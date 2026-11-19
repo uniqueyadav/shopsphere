@@ -23,6 +23,9 @@ export default function Login() {
     if (authenticatedUser?.role === 'SELLER') {
       return requestedPath?.startsWith('/seller') ? requestedPath : '/seller/dashboard'
     }
+    if (authenticatedUser?.role === 'DELIVERY_PARTNER') {
+      return requestedPath?.startsWith('/delivery') ? requestedPath : '/delivery/dashboard'
+    }
     return requestedPath && requestedPath !== '/account' ? requestedPath : '/orders'
   }
 

@@ -169,7 +169,7 @@ public class AdminOrderService {
 			.map(item -> toItem(item, sellerOrder.getSellerName(), imageUrls))
 			.toList();
 	List<OrderStatusHistoryResponse> history = sellerOrder.getStatusHistory().stream()
-			.map(event -> new OrderStatusHistoryResponse(event.getStatus(), event.getChangedAt(), event.getChangedBy(), event.getNote()))
+			.map(event -> new OrderStatusHistoryResponse(event.getStatus(), event.getChangedAt(), event.getChangedBy(), event.getNote(), event.getLocationLatitude(), event.getLocationLongitude()))
 			.toList();
 	return new AdminSellerOrderResponse(
 			sellerOrder.getId(), sellerOrder.getSeller().getId(), sellerOrder.getSellerName(),

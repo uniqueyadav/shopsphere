@@ -17,7 +17,8 @@ public record SellerApplicationSummaryResponse(
 		BusinessType businessType,
 		SellerStatus status,
 		AccountStatus accountStatus,
-		Instant submittedAt) {
+		Instant submittedAt,
+		int documentCount) {
 
 	public static SellerApplicationSummaryResponse from(Seller seller) {
 		String sellerName = seller.getSellerFullName() == null || seller.getSellerFullName().isBlank()
@@ -39,6 +40,7 @@ public record SellerApplicationSummaryResponse(
 				seller.getBusinessType(),
 				seller.getApprovalStatus(),
 				seller.getUser().getAccountStatus(),
-				seller.getCreatedAt());
+				seller.getCreatedAt(),
+				seller.getDocuments().size());
 	}
 }

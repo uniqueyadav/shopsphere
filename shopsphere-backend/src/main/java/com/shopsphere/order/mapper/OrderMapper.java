@@ -83,7 +83,9 @@ public final class OrderMapper {
 				history.getStatus(),
 				history.getChangedAt(),
 				history.getChangedBy(),
-				history.getNote());
+				history.getNote(),
+				history.getLocationLatitude(),
+				history.getLocationLongitude());
 	}
 
 	private static SellerOrderResponse toSellerOrderResponse(SellerOrder sellerOrder, Map<Long, String> productImages) {

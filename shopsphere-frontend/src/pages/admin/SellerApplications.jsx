@@ -19,6 +19,13 @@ const statusLabels = {
   REJECTED: 'Rejected',
 }
 
+const documentLabels = {
+  businessPan: 'Business PAN Card',
+  gstCertificate: 'GST Certificate',
+  addressProof: 'Business Address Proof',
+  identityProof: 'Identity Proof',
+}
+
 function formatDate(value) {
   if (!value) return '—'
   const date = new Date(value)
@@ -165,11 +172,32 @@ function ApplicationDrawer({
 
             <div className="seller-admin-detail-section">
               <h3>Submitted documents</h3>
-              <div className="seller-admin-document-empty">
-                <Icon name="document" />
-                <strong>Document information unavailable</strong>
-                <p>This application record does not include uploaded document metadata or secure file links.</p>
-              </div>
+              {application.documents?.length ? (
+                <div className="seller-admin-document-list">
+                  {application.documents.map((document, index) => (
+                    <a
+                      className="seller-admin-document-link"
+                      href={document.fileUrl}
+                      key={`${document.type}-${index}`}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      <Icon name="document" />
+                      <span>
+                        <strong>{documentLabels[document.type] || document.type}</strong>
+                        <small>{document.fileName}</small>
+                      </span>
+                      <span>View</span>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <div className="seller-admin-document-empty">
+                  <Icon name="document" />
+                  <strong>No documents uploaded</strong>
+                  <p>This application does not include uploaded documents.</p>
+                </div>
+              )}
             </div>
 
             <div className="seller-admin-detail-section">
@@ -520,7 +548,11 @@ export default function SellerApplications() {
                       <td><input aria-label={`Select ${item.sellerName || item.businessName}`} checked={selectedRows.includes(item.id)} onChange={() => toggleRow(item.id)} type="checkbox" /></td>
                       <td><button className="seller-admin-applicant-cell" onClick={() => openDetails(item.id)} type="button"><span className="seller-admin-avatar">{(item.sellerName || '?').split(/\s+/).map((part) => part[0]).join('').slice(0, 2).toUpperCase()}</span><span><strong>{item.sellerName || 'Name unavailable'}</strong><small>{item.email || 'Email unavailable'}</small></span></button></td>
                       <td><strong>{item.businessName || 'Business name unavailable'}</strong><small className="seller-admin-table-business">{item.businessType?.replaceAll('_', ' ') || 'Business type unavailable'} · {item.businessDescription || 'No description provided'}</small></td>
-                      <td><span className="seller-admin-doc-unavailable">Unavailable</span></td>
+                      <td>
+                        <span className={item.documentCount ? 'seller-admin-doc-count' : 'seller-admin-doc-unavailable'}>
+                          {item.documentCount ? `${item.documentCount} documents` : 'No documents'}
+                        </span>
+                      </td>
                       <td><StatusBadge status={item.status} /></td>
                       <td className="seller-admin-date">{formatDate(item.submittedAt)}</td>
                       <td><button aria-label={`View ${item.businessName} application`} className="seller-admin-open-button" onClick={() => openDetails(item.id)} type="button">View</button></td>

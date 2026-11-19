@@ -32,6 +32,8 @@ const EMPTY_ADDRESS = {
   deliveryInstructions: '',
   leavePackageAtDoor: false,
   callBeforeDelivery: false,
+  latitude: null,
+  longitude: null,
 }
 
 function validateAddress(values) {
@@ -58,6 +60,16 @@ function AddressFormModal({ address, error, saving, onClose, onSubmit }) {
     ? { ...address, landmark: address.landmark || '' }
     : EMPTY_ADDRESS)
   const [errors, setErrors] = useState({})
+  const [locationMessage, setLocationMessage] = useState('')
+
+  function useCurrentLocation() {
+    if (!navigator.geolocation) { setLocationMessage('Location is not supported by this browser.'); return }
+    setLocationMessage('Getting your location…')
+    navigator.geolocation.getCurrentPosition(({ coords }) => {
+      setValues(current => ({ ...current, latitude: coords.latitude, longitude: coords.longitude }))
+      setLocationMessage('Delivery pin saved. Distance fees will use this location.')
+    }, () => setLocationMessage('Could not get location. Allow location access and try again.'), { enableHighAccuracy: true, timeout: 12000 })
+  }
 
   function changeField(event) {
     const { name, type, checked, value } = event.target
@@ -152,6 +164,8 @@ function AddressFormModal({ address, error, saving, onClose, onSubmit }) {
               <textarea maxLength="500" name="deliveryInstructions" onChange={changeField} placeholder="Help the delivery partner find you" value={values.deliveryInstructions || ''} />
             </label>
           </div>
+
+          <div className="address-location-capture"><button onClick={useCurrentLocation} type="button">⌖ Use current delivery location</button><span>{locationMessage || (values.latitude != null && values.longitude != null ? 'Delivery location saved.' : 'Add your map location to calculate the accurate distance fee.')}</span></div>
 
           <label className="address-default-choice">
             <input checked={values.defaultAddress} name="defaultAddress" onChange={changeField} type="checkbox" />

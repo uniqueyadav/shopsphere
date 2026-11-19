@@ -27,3 +27,11 @@ Approved sellers update only their own seller shipments with `PATCH /api/v1/sell
 ```
 
 Allowed fulfillment transitions are `PLACED` → `CONFIRMED` → `PROCESSING` → `SHIPPED` → `OUT_FOR_DELIVERY` → `DELIVERED`. Sellers cannot set `PAYMENT_PENDING` or `CANCELLED`.
+
+## Delivery partner panel
+
+Apply `database/migrations/016_create_delivery_assignments.sql` after the order migrations, then apply `database/migrations/017_add_delivery_assignment_acceptance.sql`, `database/migrations/018_add_delivery_distance_coordinates.sql`, `database/migrations/019_add_courier_order_snapshot_details.sql`, and `database/migrations/020_add_order_status_location.sql`. Distance based delivery fees use saved seller pickup and customer delivery coordinates. Courier status updates save the latest shared GPS coordinates in shipment history. Admin-created delivery partner accounts can sign in with the email and password entered in the Add Delivery Partner form. A Super Admin must approve the partner, and the partner profile needs a service city before it can receive work.
+
+Approved partners use `GET /api/v1/delivery/dashboard` for profile, assignments and earnings summary; `PATCH /api/v1/delivery/availability` with `{"online":true}` to receive unassigned `PLACED`, `CONFIRMED`, `PROCESSING`, or `SHIPPED` seller shipments for their city; `PATCH /api/v1/delivery/assignments/{assignmentId}/accept` to accept an assignment; and `PATCH /api/v1/delivery/assignments/{assignmentId}/status` to move an accepted, shipped shipment to `OUT_FOR_DELIVERY` and then `DELIVERED`. `PATCH /api/v1/delivery/location` accepts latitude and longitude while online. Assignment and status endpoints are scoped to the signed-in partner, and shipment updates also update customer order tracking.
+
+Partner earnings currently show delivery-fee estimates for completed shipments. Courier payout processing is not configured yet.

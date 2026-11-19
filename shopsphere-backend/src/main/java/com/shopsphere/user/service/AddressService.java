@@ -28,6 +28,7 @@ public class AddressService {
 
 	@Transactional
 	public AddressResponse create(Long customerId, AddressRequest request) {
+		validateCoordinates(request);
 		User customer = lockCustomer(customerId);
 		List<Address> current = addresses.findAllByUser_Id(customerId);
 		boolean useAsDefault = request.defaultAddress() || current.isEmpty();
@@ -52,6 +53,7 @@ public class AddressService {
 
 	@Transactional
 	public AddressResponse update(Long customerId, Long addressId, AddressRequest request) {
+		validateCoordinates(request);
 		lockCustomer(customerId);
 		Address address = findOwnedAddress(customerId, addressId);
 		if (request.defaultAddress()) {
@@ -94,6 +96,11 @@ public class AddressService {
 				.orElseThrow(() -> new ResponseStatusException(
 						HttpStatus.NOT_FOUND,
 						"Customer account was not found."));
+	}
+
+	private void validateCoordinates(AddressRequest request) {
+		if ((request.latitude() == null) != (request.longitude() == null))
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Both delivery location coordinates are required.");
 	}
 
 	private Address findOwnedAddress(Long customerId, Long addressId) {

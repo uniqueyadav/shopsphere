@@ -154,7 +154,7 @@ public class OrderStatusService {
 
 	@Transactional(readOnly = true)
 	public OrderTrackingResponse getTracking(Long customerId, Long orderId) {
-		Order order = orders.findByIdAndCustomer_Id(orderId, customerId)
+		Order order = orders.findTrackingByIdAndCustomer_Id(orderId, customerId)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order was not found."));
 		return OrderMapper.toTrackingResponse(order);
 	}

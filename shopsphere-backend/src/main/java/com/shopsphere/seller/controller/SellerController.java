@@ -11,6 +11,7 @@ import com.shopsphere.seller.service.SellerService;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -19,7 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
@@ -32,16 +36,35 @@ public class SellerController {
 		this.sellerService = sellerService;
 	}
 
-	@PostMapping("/applications")
+	@PostMapping(value = "/applications", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ApiResponse<SellerApplicationResponse>> applyForSeller(
 			@AuthenticationPrincipal CustomUserDetails principal,
 			@Valid @RequestBody SellerApplicationRequest request) {
+		return submit(principal, request, null);
+	}
+
+	@PostMapping(value = "/applications", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<ApiResponse<SellerApplicationResponse>> applyForSeller(
+			@AuthenticationPrincipal CustomUserDetails principal,
+			@Valid @RequestPart("application") SellerApplicationRequest request,
+			@RequestParam(value = "businessPan", required = false) MultipartFile businessPan,
+			@RequestParam(value = "gstCertificate", required = false) MultipartFile gstCertificate,
+			@RequestParam(value = "addressProof", required = false) MultipartFile addressProof,
+			@RequestParam(value = "identityProof", required = false) MultipartFile identityProof) {
+		MultipartFile[] documents = { businessPan, gstCertificate, addressProof, identityProof };
+		return submit(principal, request, documents);
+	}
+
+	private ResponseEntity<ApiResponse<SellerApplicationResponse>> submit(
+			CustomUserDetails principal,
+			SellerApplicationRequest request,
+			MultipartFile[] documents) {
 		if (principal == null) {
 			throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Authentication is required.");
 		}
 		return ResponseEntity.status(HttpStatus.CREATED).body(ApiResponse.success(
 				"Seller application submitted for review.",
-				sellerService.applyForSeller(principal.getId(), request)));
+				sellerService.applyForSeller(principal.getId(), request, documents)));
 	}
 
 	@GetMapping("/me/delivery-fee")

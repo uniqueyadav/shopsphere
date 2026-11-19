@@ -46,9 +46,9 @@ public interface SellerRepository extends JpaRepository<Seller, Long>, JpaSpecif
 	long countByApprovalStatusAndUser_AccountStatus(SellerStatus approvalStatus, AccountStatus accountStatus);
 
 	@Override
-	@EntityGraph(attributePaths = "user")
+	@EntityGraph(attributePaths = {"user", "documents"})
 	Page<Seller> findAll(Specification<Seller> specification, Pageable pageable);
 
-	@EntityGraph(attributePaths = {"user", "reviewedBy"})
+	@EntityGraph(attributePaths = {"user", "reviewedBy", "documents"})
 	Optional<Seller> findById(Long id);
 }

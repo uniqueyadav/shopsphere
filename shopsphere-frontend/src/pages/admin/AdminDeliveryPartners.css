@@ -3,3 +3,22 @@
 
 /* Readability pass: larger, darker labels and table content. */
 .admin-delivery-partners{font-size:14px;color:#101a33}.adp-page-actions>span{font-size:14px!important;color:#273653!important}.adp-stats small{font-size:13px!important;color:#1e2b48!important}.adp-stats em{font-size:11px!important;color:#3d4b66!important}.adp-filter input,.adp-filter select{font-size:13px!important;color:#17243f!important}.adp-filter input::placeholder{color:#596781!important;opacity:1}.adp-button{font-size:13px!important}.adp-table-card th,.adp-table-card td{font-size:13px!important;color:#1b2945!important}.adp-partner strong{font-size:13px!important;color:#111d38!important}.adp-partner small,.adp-subline{font-size:11px!important;color:#3d4b66!important}.adp-badge{font-size:11px!important}.adp-pagination{font-size:13px!important;color:#182541!important}.adp-pagination label{font-size:12px!important;color:#3d4b66!important}.adp-drawer header h2,.adp-modal h2,.adp-confirm h2{color:#111d38!important}.adp-profile h3{font-size:19px!important;color:#111d38!important}.adp-profile p{font-size:13px!important;color:#273653!important}.adp-profile small{font-size:11px!important;color:#3d4b66!important}.adp-drawer section h3{font-size:15px!important;color:#111d38!important}.adp-drawer dt,.adp-muted{font-size:12px!important;color:#3d4b66!important}.adp-drawer dd{font-size:12px!important;color:#17243f!important}.adp-performance small{font-size:10px!important;color:#3d4b66!important}.adp-form-grid label,.adp-confirm>label{font-size:12px!important;color:#1c2945!important}.adp-form-grid input,.adp-form-grid select,.adp-confirm textarea{font-size:13px!important;color:#17243f!important}
+
+/* Keep the required marker beside its label, with the control on the next row. */
+.adp-form-grid label{grid-template-columns:max-content max-content;align-items:center;justify-content:start;column-gap:3px}
+.adp-form-grid label>input,.adp-form-grid label>select{grid-column:1/-1;width:100%}
+.adp-required{align-self:center;font-size:14px;line-height:1;color:#d92d3f}
+
+/* Preserve readable text contrast on all partner management actions. */
+.adp-button:hover:not(:disabled){border-color:#5148ec;background:#f3f2ff;color:#4138cb}
+.adp-button.adp-primary:hover:not(:disabled){border-color:#3c35cf;background:linear-gradient(110deg,#5142ed,#3938d2);color:#fff;box-shadow:0 5px 14px #5148ef45}
+.adp-button.adp-danger:hover:not(:disabled){border-color:#c92f40;background:#fff0f2;color:#b52234}
+.adp-button:focus-visible,.adp-pagination button:focus-visible{outline:3px solid #9690ff;outline-offset:2px}
+
+/* The required mark belongs to its own field label, not a shared grid column. */
+.adp-form-grid label{display:flex;flex-direction:column;align-items:stretch;gap:6px}
+.adp-form-grid .adp-field-label{display:inline-flex;align-items:baseline;align-self:flex-start;gap:4px}
+.adp-form-grid label>input,.adp-form-grid label>select{width:100%}
+.adp-form-grid .adp-required{font-size:14px;line-height:1;color:#d92d3f}
+
+.adp-city-edit{display:grid;gap:7px;margin:0 0 14px;padding:12px;border:1px solid #e0e4f5;border-radius:10px;background:#f8f9ff}.adp-city-edit>label{font-size:12px;font-weight:700;color:#17243f}.adp-city-edit>div{display:flex;gap:8px}.adp-city-edit input{min-width:0;flex:1;padding:9px 11px;border:1px solid #ccd4e7;border-radius:7px;color:#17243f;font:inherit}.adp-city-edit small{font-size:11px;color:#52617d}.adp-city-edit input:focus{outline:2px solid #8178ff;border-color:#5148ec}

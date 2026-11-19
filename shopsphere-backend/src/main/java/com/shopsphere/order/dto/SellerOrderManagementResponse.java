@@ -48,6 +48,6 @@ public record SellerOrderManagementResponse(
 				sellerOrder.getSubtotal(), order.getSellerOrders().size() == 1 ? order.getDiscountAmount() : null,
 				null, sellerOrder.getDeliveryCharge(), order.getShippingFullName(), order.getShippingMobileNumber(), address,
 				null, null, itemResponses, sellerOrder.getStatusHistory().stream()
-						.map(event -> new OrderStatusHistoryResponse(event.getStatus(), event.getChangedAt(), event.getChangedBy(), event.getNote())).toList());
+						.map(event -> new OrderStatusHistoryResponse(event.getStatus(), event.getChangedAt(), event.getChangedBy(), event.getNote(), event.getLocationLatitude(), event.getLocationLongitude())).toList());
 	}
 }

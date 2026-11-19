@@ -11,7 +11,7 @@ public final class UserMapper {
 	}
 
 	public static Address toAddress(AddressRequest request, User user, boolean defaultAddress) {
-		return new Address(
+		Address address = new Address(
 				user,
 				request.fullName().trim(),
 				request.mobileNumber().trim(),
@@ -26,6 +26,11 @@ public final class UserMapper {
 				normalizeOptional(request.deliveryInstructions()),
 				request.leavePackageAtDoor(),
 				request.callBeforeDelivery());
+		address.update(request.fullName().trim(), request.mobileNumber().trim(), request.houseFlatNumber().trim(),
+				request.streetArea().trim(), normalizeOptional(request.landmark()), request.city().trim(), request.state().trim(),
+				request.pinCode().trim(), request.addressType(), normalizeOptional(request.deliveryInstructions()),
+				request.leavePackageAtDoor(), request.callBeforeDelivery(), request.latitude(), request.longitude());
+		return address;
 	}
 
 	public static void updateAddress(Address address, AddressRequest request) {
@@ -41,7 +46,7 @@ public final class UserMapper {
 				request.addressType(),
 				normalizeOptional(request.deliveryInstructions()),
 				request.leavePackageAtDoor(),
-				request.callBeforeDelivery());
+				request.callBeforeDelivery(), request.latitude(), request.longitude());
 		address.setDefaultAddress(request.defaultAddress());
 	}
 
@@ -60,7 +65,7 @@ public final class UserMapper {
 				address.isDefaultAddress(),
 				address.getDeliveryInstructions(),
 				address.isLeavePackageAtDoor(),
-				address.isCallBeforeDelivery());
+				address.isCallBeforeDelivery(), address.getLatitude(), address.getLongitude());
 	}
 
 	private static String normalizeOptional(String value) {

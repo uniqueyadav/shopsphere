@@ -1464,6 +1464,48 @@
   line-height: 1.55;
 }
 
+.seller-admin-document-list {
+  display: grid;
+  gap: 8px;
+}
+
+.seller-admin-document-link {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #263454;
+  text-decoration: none;
+  background: #f7f8ff;
+  border: 1px solid #e2e6f3;
+  border-radius: 8px;
+}
+
+.seller-admin-document-link > span:nth-child(2) {
+  display: grid;
+  min-width: 0;
+}
+
+.seller-admin-document-link small {
+  overflow: hidden;
+  color: #66718e;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.seller-admin-document-link > span:last-child {
+  color: #5146ed;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.seller-admin-doc-count {
+  color: #2d6a54;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .seller-admin-content { padding: 0 16px 24px; }
   .seller-admin-toolbar { grid-template-columns: minmax(190px, 1fr) minmax(140px, .75fr); }

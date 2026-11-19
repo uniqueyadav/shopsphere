@@ -142,7 +142,7 @@ public class CheckoutService {
 					.reduce(ZERO, BigDecimal::add);
 			sellerSubtotals.put(entry.getKey(), sellerSubtotal);
 			subtotal = subtotal.add(sellerSubtotal);
-			deliveryCharges = deliveryCharges.add(lockedSellers.get(entry.getKey()).getDeliveryFee());
+			deliveryCharges = deliveryCharges.add(deliveryFee(lockedSellers.get(entry.getKey()), shippingAddress));
 		}
 		BigDecimal totalAmount = subtotal.add(deliveryCharges);
 		List<CouponLine> couponLines = new ArrayList<>();
@@ -172,7 +172,7 @@ public class CheckoutService {
 		for (Map.Entry<Long, List<CheckoutLine>> entry : linesBySeller.entrySet()) {
 			Seller seller = lockedSellers.get(entry.getKey());
 			BigDecimal sellerSubtotal = sellerSubtotals.get(entry.getKey());
-			BigDecimal deliveryCharge = seller.getDeliveryFee();
+			BigDecimal deliveryCharge = deliveryFee(seller, shippingAddress);
 			SellerOrder sellerOrder = order.addSellerOrder(
 					seller,
 					sellerSubtotal,
@@ -208,6 +208,19 @@ public class CheckoutService {
 		return discountPrice != null && discountPrice.compareTo(product.getPrice()) < 0
 				? discountPrice
 				: product.getPrice();
+	}
+
+	private BigDecimal deliveryFee(Seller seller, Address address) {
+		if (seller.getPickupLatitude() == null || seller.getPickupLongitude() == null || address.getLatitude() == null || address.getLongitude() == null) {
+			return seller.getDeliveryFee().setScale(2, java.math.RoundingMode.HALF_UP);
+		}
+		double lat1 = Math.toRadians(seller.getPickupLatitude()), lat2 = Math.toRadians(address.getLatitude());
+		double dLat = lat2 - lat1, dLon = Math.toRadians(address.getLongitude() - seller.getPickupLongitude());
+		double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+		a = Math.min(1.0, Math.max(0.0, a));
+		double km = 6371.0 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		long billableKm = (long) Math.ceil(km);
+		return new BigDecimal("20.00").add(new BigDecimal("5.00").multiply(BigDecimal.valueOf(billableKm))).setScale(2, java.math.RoundingMode.HALF_UP);
 	}
 
 	private record CheckoutLine(Product product, int quantity, BigDecimal unitPrice) {

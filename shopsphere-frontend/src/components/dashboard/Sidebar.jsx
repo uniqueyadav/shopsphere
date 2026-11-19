@@ -13,6 +13,7 @@ const items = [
   ["Coupons", "/admin/coupons", "tag"],
   ["Reviews", "/admin/reviews", "star"],
   ["Delivery Partners", "/admin/delivery-partners", "truck"],
+  ["Courier Dashboard", "/admin/courier-dashboard", "chart"],
   ["Commission Settings", "/admin/commission-settings", "percent"],
   ["Revenue Reports", "/admin/revenue-reports", "chart"],
   ["Notifications", "/admin/notifications", "bell"],

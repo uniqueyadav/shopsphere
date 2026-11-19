@@ -41,16 +41,20 @@ public class OrderStatusHistory extends BaseEntity {
 
 	@Column(length = 255)
 	private String note;
+	@Column(name = "location_latitude") private Double locationLatitude;
+	@Column(name = "location_longitude") private Double locationLongitude;
 
 	protected OrderStatusHistory() {
 	}
 
-	OrderStatusHistory(SellerOrder sellerOrder, OrderStatus status, String changedBy, String note) {
+	OrderStatusHistory(SellerOrder sellerOrder, OrderStatus status, String changedBy, String note, Double latitude, Double longitude) {
 		this.sellerOrder = sellerOrder;
 		this.status = status;
 		this.changedAt = Instant.now();
 		this.changedBy = changedBy;
 		this.note = note;
+		this.locationLatitude = latitude;
+		this.locationLongitude = longitude;
 	}
 
 	public OrderStatus getStatus() {
@@ -68,4 +72,6 @@ public class OrderStatusHistory extends BaseEntity {
 	public String getNote() {
 		return note;
 	}
+	public Double getLocationLatitude() { return locationLatitude; }
+	public Double getLocationLongitude() { return locationLongitude; }
 }

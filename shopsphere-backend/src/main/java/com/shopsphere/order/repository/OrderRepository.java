@@ -24,7 +24,7 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 	@Query("select distinct o from Order o where o.id in :orderIds")
 	@EntityGraph(attributePaths = {
 			"customer", "sellerOrders", "sellerOrders.seller", "sellerOrders.items",
-			"sellerOrders.items.product", "sellerOrders.statusHistory"
+			"sellerOrders.items.product"
 	})
 	List<Order> findAllAdminDetailsByIdIn(@Param("orderIds") Collection<Long> orderIds);
 
@@ -35,10 +35,12 @@ public interface OrderRepository extends JpaRepository<Order, Long>, JpaSpecific
 			"sellerOrders",
 			"sellerOrders.seller",
 			"sellerOrders.items",
-			"sellerOrders.items.product",
-			"sellerOrders.statusHistory"
+			"sellerOrders.items.product"
 	})
 	Optional<Order> findByIdAndCustomer_Id(Long orderId, Long customerId);
+
+	@EntityGraph(attributePaths = {"sellerOrders", "sellerOrders.seller", "sellerOrders.statusHistory"})
+	Optional<Order> findTrackingByIdAndCustomer_Id(Long orderId, Long customerId);
 
 	@Lock(LockModeType.PESSIMISTIC_WRITE)
 	@Query("select o from Order o where o.id = :orderId and o.customer.id = :customerId")

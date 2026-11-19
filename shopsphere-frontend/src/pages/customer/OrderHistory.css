@@ -807,6 +807,7 @@
   color: #78857b;
   font-size: 10px;
 }
+.tracking-event p a { color: #326b45; font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
 
 .tracking-empty-history {
   margin: 14px 0 5px;
